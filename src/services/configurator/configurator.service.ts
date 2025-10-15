@@ -17,9 +17,11 @@ export class ConfiguratorService {
   async calc(body) {
     try {
       const { data } = await firstValueFrom(
-        this.httpService.post('http://configurator:5000/api/optim/', {
+        this.httpService.post(
+          'http://configurator:5000/api/optim/',
+          {
           ...body,
-          Econ: {
+            Econ: {
             ElCost: 8,
             Disc_Rate: 0.2,
             Lifetime: 25,
@@ -198,7 +200,8 @@ export class ConfiguratorService {
           // NPV: data.NPV?.toFixed(2),
         },
       };
-    } catch {
+    } catch (error) {
+      console.log('error:', error);
       return null;
     }
   }
