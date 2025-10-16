@@ -4,13 +4,13 @@ services:
       - .env.production
     build:
       dockerfile: Dockerfile
-      context: ./api
+      context: .
     command: bash -c "npm run seed:prod && npm run start"
     environment:
       NODE_ENV: development
       PORT: 3000
     volumes:
-      - ./api/src:/app/api/src
+      - ./src:/app/api/src
     ports:
       - "8000:3000"
     depends_on:
