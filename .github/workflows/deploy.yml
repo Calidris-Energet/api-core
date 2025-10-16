@@ -1,0 +1,62 @@
+name: Deploy Frontend
+
+on: [push]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify github action on Telegram
+        uses: EverythingSuckz/github-telegram-notify@main
+        with:
+          bot_token: '${{ secrets.TELEGRAM_TOKEN }}'
+          chat_id: '${{ secrets.TELEGRAM_CHAT_ID }}'
+          topic_id: '${{ secrets.TELEGRAM_TOPIC_ID }}'
+
+      - name: Pull code
+        uses: appleboy/ssh-action@master
+        with:
+          port:  ${{ secrets.SSH_PORT }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/energet/energet-backend/
+            git checkout ${{ github.ref_name }} || exit 1
+            sudo git pull || exit 1
+
+      - name: Build & Restart service
+        uses: appleboy/ssh-action@master
+        with:
+          port:  ${{ secrets.SSH_PORT }}
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd /home/energet/energet-backend/
+            sudo docker compose -f docker-compose.production.yml down || exit 1
+            sudo docker compose --env-file .env.production -f docker-compose.production.yml up --build -d || exit 1
+
+      - name: Send Telegram Message
+        if: failure()
+        env:
+          MESSAGE: |
+            ❗ Произошла ошибка во время деплоя
+            
+            🔗 Ссылка на пайплайн 🔗
+            ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          curl -s -X POST 'https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage' \
+          -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}&text=$MESSAGE&reply_to_message_id=${{ secrets.TELEGRAM_TOPIC_ID }}"
+
+      - name: Send Telegram Message
+        if: success()
+        env:
+          MESSAGE: |
+            ✅ Изменения успешно задеплоены
+
+            🔗 Ссылка на прод 🔗
+            ${{ secrets.PRODUCTION_URL || 'Отсутствует' }}
+        run: |
+          curl -s -X POST 'https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage' \
+          -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}&text=$MESSAGE&reply_to_message_id=${{ secrets.TELEGRAM_TOPIC_ID }}"
