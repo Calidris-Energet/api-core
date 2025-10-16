@@ -21,7 +21,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /home/energet/energet-backend/
+            cd /home/energet/api-core/
             git checkout ${{ github.ref_name }} || exit 1
             sudo git pull || exit 1
 
@@ -33,7 +33,7 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd /home/energet/energet-backend/
+            cd /home/energet/api-core/
             sudo docker compose -f docker-compose.production.yml down || exit 1
             sudo docker compose --env-file .env.production -f docker-compose.production.yml up --build -d || exit 1
 
