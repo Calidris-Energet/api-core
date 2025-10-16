@@ -52,4 +52,4 @@ report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 .idea
 
 # Production .env.development
-.production.env
+.env.production

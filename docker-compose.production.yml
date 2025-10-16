@@ -111,4 +111,5 @@ volumes:
 
 networks:
   energet-network:
+    name: energet-network
     driver: bridge
