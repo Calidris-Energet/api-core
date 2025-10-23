@@ -15,6 +15,7 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           script: |
             cd /home/energet/api-core/
+            git fetch || exit 1
             git checkout ${{ github.ref_name }} || exit 1
             sudo git pull || exit 1
 
