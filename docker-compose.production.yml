@@ -75,21 +75,6 @@ services:
     networks:
       - energet-network
 
-  nginx:
-    image: nginx:latest
-    container_name: nginx
-    ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-      - /etc/letsencrypt:/etc/letsencrypt:ro
-    depends_on:
-      api:
-        condition: service_started
-    networks:
-      - energet-network
-
   telegram-notifier:
     image: lorcas/docker-telegram-notifier:latest
     volumes:
