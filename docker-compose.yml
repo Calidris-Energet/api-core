@@ -33,8 +33,6 @@ services:
       PGDATA: /data/postgres
     volumes:
        - postgres:/var/www/postgres/docker-volumes/postgres
-    ports:
-      - "5432:5432"
     restart: unless-stopped
     healthcheck:
       test: ["CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USERNAME} -d ${POSTGRES_DATABASE}'"]
