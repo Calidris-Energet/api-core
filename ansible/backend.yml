@@ -15,7 +15,7 @@
             mode: '0755'
           become: yes
 
-        - name: Upload prod.env file
+        - name: Upload .env.production file
           copy:
             src: ./.env.production
             dest: "{{ backend_dir }}/.env.production"
@@ -40,7 +40,6 @@
             url: "https://energet.shop/api/items"
             status_code: 200
             timeout: 10
-            validate_certs: no
           register: server_health
           retries: 10
           delay: 5
@@ -56,6 +55,9 @@
               text: |
                 🔔 Backend
                 ✅ Изменения успешно задеплоены
+                
+                🔗 Ссылка 🔗
+                https://energet.shop/
               parse_mode: 'markdown'
 
       rescue:
