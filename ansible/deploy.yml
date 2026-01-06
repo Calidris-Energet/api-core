@@ -27,7 +27,7 @@
             dest: "{{ backend_dir }}"
             update: yes
             version: main
-            force: yes
+            force: no
           become: yes
 
         - name: Run the build script
