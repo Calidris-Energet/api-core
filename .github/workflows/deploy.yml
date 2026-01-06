@@ -46,7 +46,7 @@ jobs:
       - name: Run Ansible playbook to deploy backend
         working-directory: ansible
         run: |
-          ansible-playbook backend.yml \
+          ansible-playbook deploy.yml \
             -e '{
             "server_host": "${{ secrets.SERVER_HOST }}",
             "server_port": "${{ secrets.SERVER_PORT }}",

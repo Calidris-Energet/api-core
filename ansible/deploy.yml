@@ -1,12 +1,12 @@
 ---
 - hosts: all
   vars:
-    backend_dir: /home/backend/
+    backend_dir: /home/backend/api-core/
 
   tasks:
     - name: Start deployment
       block:
-        - name: Ensure front folder exists
+        - name: Ensure folder exists
           file:
             path: "{{ backend_dir }}"
             state: directory
@@ -53,11 +53,8 @@
               chat_id: "{{ telegram_chat_id }}"
               message_thread_id: "{{ telegram_topic_id }}"
               text: |
-                🔔 Backend
+                🔔 Backend (core)
                 ✅ Изменения успешно задеплоены
-                
-                🔗 Ссылка 🔗
-                https://energet.shop/
               parse_mode: 'markdown'
 
       rescue:
