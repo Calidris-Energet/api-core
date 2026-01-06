@@ -15,6 +15,12 @@
             mode: '0755'
           become: yes
 
+        - name: Upload prod.env file
+          copy:
+            src: ./.env.production
+            dest: {{ backend_dir }}/.env.production
+            mode: "0644"
+
         - name: Pull latest code and switch to main branch
           git:
             repo: "https://github.com/Calidris-Energet/api-core.git"
