@@ -15,20 +15,20 @@
             mode: '0755'
           become: yes
 
-        - name: Upload .env.production file
-          copy:
-            src: ./.env.production
-            dest: "{{ backend_dir }}/.env.production"
-            mode: "0644"
-
         - name: Pull latest code and switch to main branch
           git:
             repo: "https://github.com/Calidris-Energet/api-core.git"
             dest: "{{ backend_dir }}"
             update: yes
             version: main
-            force: no
+            force: yes
           become: yes
+
+        - name: Upload .env.production file
+          copy:
+            src: ./.env.production
+            dest: "{{ backend_dir }}/.env.production"
+            mode: "0644"
 
         - name: Run the build script
           ansible.builtin.command:
