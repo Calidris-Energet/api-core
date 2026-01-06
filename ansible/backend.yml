@@ -18,7 +18,7 @@
         - name: Upload prod.env file
           copy:
             src: ./.env.production
-            dest: {{ backend_dir }}/.env.production
+            dest: "{{ backend_dir }}/.env.production"
             mode: "0644"
 
         - name: Pull latest code and switch to main branch
