@@ -94,10 +94,10 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
-      - './infra/grafana/dashboards:/etc/grafana/provisioning/dashboards'
-      - './infra/grafana/datasources:/etc/grafana/provisioning/datasources'
-      - './infra/grafana/config:/etc/grafana-config'
-      - './infra/grafana/config/grafana.production.ini:/etc/grafana/grafana.ini'
+      - './infra/production/grafana/dashboards:/etc/grafana/provisioning/dashboards'
+      - './infra/production/grafana/datasources:/etc/grafana/provisioning/datasources'
+      - './infra/production/grafana/config:/etc/grafana-config'
+      - './infra/production/grafana/config/grafana.ini:/etc/grafana/grafana.ini'
       - grafana-storage:/var/lib/grafana
     networks:
       - energet-network
@@ -133,7 +133,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./infra/nginx.production.conf:/etc/nginx/nginx.conf
+      - ./infra/production/nginx.conf:/etc/nginx/nginx.conf
       - /etc/letsencrypt:/etc/letsencrypt:ro
       - /var/www/frontend/dist:/usr/share/nginx/html
     depends_on:
