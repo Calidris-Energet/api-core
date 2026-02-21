@@ -1,10 +1,9 @@
 # Бэкенд
 
-* Бэкенд: 
-  * Основной сервис: Nest.js
-  * Модуль расчётов: Express
+* Бэкенд: Nest.js
 * База данных: PostgreSQL
 * Развертывание: Docker Compose
+* Мониторинг: Grafana, Loki, Alloy
 
 ### Требования к системе
 
@@ -24,6 +23,11 @@ docker compose --env-file .env.production -f docker-compose.production.yml up --
 ```
 
 * Перед каждым запуском приложения происходит очистка бд и затем заполнение моковыми данными
+
+#### Мониторинг
+
+
+
 
 ### Правила оформления Pull Requests
 
