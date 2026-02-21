@@ -86,6 +86,63 @@ services:
     labels:
       telegram-notifier.monitor: false
 
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - './infra/grafana/dashboards:/etc/grafana/provisioning/dashboards'
+      - './infra/grafana/datasources:/etc/grafana/provisioning/datasources'
+      - './infra/grafana/config:/etc/grafana-config'
+      - './infra/grafana/config/grafana.ini:/etc/grafana/grafana.ini'
+      - grafana-storage:/var/lib/grafana
+    networks:
+      - energet-network
+
+  loki:
+    image: grafana/loki:latest
+    ports:
+      - "3100:3100"
+    command: -config.file=/etc/loki/local-config.yaml
+    networks:
+      - energet-network
+
+  alloy:
+    image: grafana/alloy:latest
+    ports:
+      - "12345:12345"
+      - "8027:8027"
+    entrypoint:
+      - '/bin/alloy'
+      - 'run'
+      - '--server.http.listen-addr=0.0.0.0:12345'
+      - '--config.extra-args="-config.expand-env"'
+      - '/etc/alloy/config.alloy'
+    volumes:
+      - ./infra/alloy/config.alloy:/etc/alloy/config.alloy
+    networks:
+      - energet-network
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.production.conf:/etc/nginx/nginx.conf
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+    depends_on:
+      alloy:
+        condition: service_started
+      api:
+        condition: service_started
+    networks:
+      - energet-network
+
 volumes:
   postgres:
   pgadmin:

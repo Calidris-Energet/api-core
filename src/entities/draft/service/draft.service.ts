@@ -1,8 +1,8 @@
+import { Draft } from '@entities/draft/models/draft.entity';
+import { User } from '@entities/user/models/user.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindOneOptions, Repository } from 'typeorm';
-import { User } from '@entities/user/models/user.entity';
-import { Draft } from '@entities/draft/models/draft.entity';
 
 @Injectable()
 export class DraftService {
