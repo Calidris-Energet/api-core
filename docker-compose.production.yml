@@ -122,7 +122,7 @@ services:
       - '--config.extra-args="-config.expand-env"'
       - '/etc/alloy/config.alloy'
     volumes:
-      - ./infra/alloy/config.alloy:/etc/alloy/config.alloy
+      - ./infra/production/alloy/config.alloy:/etc/alloy/config.alloy
     networks:
       - energet-network
 
