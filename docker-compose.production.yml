@@ -147,6 +147,7 @@ volumes:
   postgres:
   pgadmin:
   minio-data:
+  grafana-storage:
 
 networks:
   energet-network:
