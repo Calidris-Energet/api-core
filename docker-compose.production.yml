@@ -135,6 +135,7 @@ services:
     volumes:
       - ./infra/nginx.production.conf:/etc/nginx/nginx.conf
       - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/frontend/dist:/usr/share/nginx/html
     depends_on:
       alloy:
         condition: service_started
