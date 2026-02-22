@@ -38,7 +38,7 @@
 
         - name: Stop docker containers
           ansible.builtin.command:
-            cmd: docker compose --env-file .env.production -f docker-compose.production.yml down
+            cmd: docker compose -f docker-compose.production.yml down -v
             chdir: "{{ backend_dir }}"
 
         - name: Run the build script
