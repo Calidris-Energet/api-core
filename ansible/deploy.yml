@@ -36,6 +36,11 @@
             dest: "{{ backend_dir }}/.env.production"
             mode: "0644"
 
+        - name: Stop docker containers
+          ansible.builtin.command:
+            cmd: docker compose --env-file .env.production -f docker-compose.production.yml down
+            chdir: "{{ backend_dir }}"
+
         - name: Run the build script
           ansible.builtin.command:
             cmd: docker compose --env-file .env.production -f docker-compose.production.yml up --build -d
