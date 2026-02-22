@@ -2,6 +2,8 @@
 - hosts: all
   vars:
     backend_dir: /home/backend/api-core/
+  vars_files:
+    - .ansible-env.yml.vault
 
   tasks:
     - name: Start deployment
