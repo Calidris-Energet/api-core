@@ -1,7 +1,4 @@
 all:
-  vars_files:
-    - .ansible-env.yml.vault
-
   vars:
     ansible_user: "{{ server_user }}"
 
